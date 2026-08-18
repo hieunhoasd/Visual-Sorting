@@ -66,6 +66,7 @@ sorting-visualizer/
 ## Thành viên & phân công
 | Thành viên | Vai trò |
 |---|---|
+Trầm Đồng Khởi | Leader
 | ... | ... |
 
 ## Công nghệ sử dụng
