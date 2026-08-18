@@ -66,11 +66,11 @@ sorting-visualizer/
 ## Thành viên & phân công
 | Thành viên | Vai trò |
 |---|---|
-1. Trầm Đồng Khởi | Leader |
-|2. Nguyễn Anh Kiệt | Member |
-|3. Nguyễn Gia Hiếu | Member |
-|4. Nguyễn Nho Hiếu | Member |
-|5. Nguyễn Châu Hải My | Member |
+| 1. Trầm Đồng Khởi | Leader |
+| 2. Nguyễn Anh Kiệt | Member |
+| 3. Nguyễn Gia Hiếu | Member |
+| 4. Nguyễn Nho Hiếu | Member |
+| 5. Nguyễn Châu Hải My | Member |
 | ... | ... |
 
 ## Công nghệ sử dụng
