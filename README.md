@@ -24,11 +24,12 @@ SORTING-VISUALIZER/
 ├── .gitignore
 ├── backend/
 │   ├── app/
-│   │   ├── main.py                # Entry khởi tạo API server
-│   │   ├── config.py              # Cấu hình (CORS, port...)
+│   │   ├── main.py
+│   │   ├── config.py
+│   │   ├── schemas.py
 │   │   ├── algorithms/
 │   │   │   ├── __init__.py
-│   │   │   ├── base.py            # Class/hàm dùng chung: ghi "step log"
+│   │   │   ├── base.py
 │   │   │   ├── bubble_sort.py
 │   │   │   ├── selection_sort.py
 │   │   │   ├── insertion_sort.py
@@ -38,29 +39,26 @@ SORTING-VISUALIZER/
 │   │   │   ├── heap_sort.py
 │   │   │   ├── radix_lsd_sort.py
 │   │   │   └── radix_msd_sort.py
-│   │   ├── routes/
-│   │   │   └── sort_routes.py     # API endpoints /api/sort/
-│   │   └── schemas.py             # Định nghĩa format JSON (request/response)
+│   │   └── routes/
+│   │       └── sort_routes.py
 │   ├── requirements.txt
-│   └── test_algorithms.py         # Unit test từng thuật toán
+│   └── tests/
+│       └── test_algorithms.py
 ├── frontend/
 │   ├── index.html
 │   ├── css/
-│   │   ├── style.css              # Layout tổng thể
-│   │   └── animation.css          # Transition, màu sắc theo trạng thái
+│   │   ├── style.css
+│   │   └── animation.css
 │   ├── js/
-│   │   ├── main.js                # Khởi tạo & gắn event
-│   │   ├── api.js                 # Gọi API sang Python backend
-│   │   ├── renderer.js            # Vẽ mảng thành cột HTML
-│   │   ├── player.js              # Đọc JSON kịch bản, animate từng bước
-│   │   └── controls.js            # Xử lý slider, dropdown, nút bấm
+│   │   ├── main.js
+│   │   ├── api.js
+│   │   ├── renderer.js
+│   │   ├── player.js
+│   │   └── controls.js
 │   └── assets/
-├── docs/
-│   └── json-schema.md             # Định nghĩa format action (compare/swap/bucket_move...)
-├── report/                        # Báo cáo đồ án (Word/PDF)
-├── slides/                        # Slide thuyết trình
-└── demo/
-    └── screenshots/
+└── docs/
+    └── json-schema.md
+
 ```
 
 ## Thành viên & phân công
