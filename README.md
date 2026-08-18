@@ -71,7 +71,7 @@ sorting-visualizer/
 | 3. Nguyễn Gia Hiếu | Member |
 | 4. Nguyễn Nho Hiếu | Member |
 | 5. Nguyễn Châu Hải My | Member |
-| ... | ... |
+
 
 ## Công nghệ sử dụng
 HTML, CSS, JavaScript, Python (Flask/FastAPI)
