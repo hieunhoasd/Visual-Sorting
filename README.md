@@ -19,7 +19,7 @@ Mở frontend/index.html bằng Live Server (hoặc build tool nếu dùng)
 ## Cấu trúc thư mục
 
 ```text
-sorting-visualizer/
+SORTING-VISUALIZER/
 ├── README.md
 ├── .gitignore
 ├── backend/
