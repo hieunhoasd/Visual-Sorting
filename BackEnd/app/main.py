@@ -22,7 +22,7 @@ from app.algorithms import (
     slow_sort,
     smooth_sort,
     strand_sort,
-    tournament_sort,
+    shell_sort,
     tree_sort,
     bubble_sort,
 )
