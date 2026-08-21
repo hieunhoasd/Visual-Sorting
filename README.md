@@ -19,64 +19,7 @@ mảng sẽ đổi màu/chiều cao theo đúng trình tự thuật toán đã t
 
 ```text
 
-sorting-visualizer/
-├── .gitignore
-├── README.md
-├── docs/
-│   └── json-schema.md
-│
-├── backend/
-│   ├── requirements.txt
-│   ├── app/
-│   │   ├── main.py
-│   │   ├── config.py
-│   │   ├── schemas.py
-│   │   ├── routes/
-│   │   │   └── sort_routes.py
-│   │   └── algorithms/
-│   │       ├── __init__.py
-│   │       ├── base.py                
-│   │       ├── bubble_sort.py         
-│   │       ├── radix_lsd_sort.py      
-│   │       ├── selection_sort.py      
-│   │       ├── radix_msd_sort.py      
-│   │       ├── insertion_sort.py      
-│   │       ├── bitonic_sort.py        
-│   │       ├── shell_sort.py          
-│   │       ├── quick_sort.py          
-│   │       ├── merge_sort.py          
-│   │       └── heap_sort.py           
-│   └── tests/
-│       └── test_algorithms.py         
-│
-└── frontend/
-    ├── index.html
-    ├── assets/
-    ├── css/
-    │   ├── style.css                  
-    │   ├── animation.css              
-    │   └── algorithms/
-    │       ├── bubble.css             
-    │       ├── radix.css              
-    │       ├── bitonic.css            
-    │       └── ...
-    └── js/
-        ├── main.js                    
-        ├── api.js                     
-        ├── controls.js                
-        ├── renderer.js                
-        ├── player.js                  
-        └── algorithms/
-            ├── bubble_sort_ui.js      
-            ├── radix_lsd_ui.js        
-            ├── selection_sort_ui.js   
-            ├── radix_msd_ui.js        
-            ├── insertion_sort_ui.js   
-            ├── bitonic_ui.js          
-            ├── shell_sort_ui.js       
-            ├── quick_sort_ui.js       
-            ├── merge_sort_ui.js       
-            └── heap_sort_ui.js        
+        
 
 ```
 
