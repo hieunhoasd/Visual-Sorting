@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visual Sorting - Radix MSD Sort</title>
+    <!-- Liên kết file CSS chung -->
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* Tùy chỉnh trực tiếp màu sắc nút bấm cho nổi bật và dễ nhìn */
+        .control-panel {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .control-panel button {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: #ffffff;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+            transition: all 0.2s ease-in-out;
+        }
+
+        .control-panel button:hover {
+            transform: translateY(-2px);
+            background: linear-gradient(135deg, #2563eb, #1e40af);
+            box-shadow: 0 6px 16px rgba(37, 99, 235, 0.4);
+        }
+
+        #btn-generate-msd {
+            background: linear-gradient(135deg, #8b5cf6, #6d28d9);
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+        }
+
+        #btn-generate-msd:hover {
+            background: linear-gradient(135deg, #7c3aed, #5b21b6);
+            box-shadow: 0 6px 16px rgba(139, 92, 246, 0.4);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="selection-sort-container">
+        <h2>Trực quan hóa: Radix MSD Sort</h2>
+        
+        <!-- Khu vực điều khiển: Chỉ còn 2 nút gọn gàng, rõ đẹp -->
+        <div class="control-panel">
+            <button id="btn-generate-msd">Tạo mảng ngẫu nhiên</button>
+            <button id="btn-run-msd">Chạy Radix MSD Sort</button>
+        </div>
+
+        <!-- Khu vực vẽ các cột (bars) hiển thị mảng -->
+        <div id="array-container" class="array-container"></div>
+
+        <!-- Khu vực hiển thị UI Bucket riêng cho Radix MSD Sort -->
+        <div id="bucket-container" class="bucket-section">
+            <h3>Phân loại vào các Bucket (0 - 9)</h3>
+            <div class="buckets-grid">
+                <div class="bucket-box" id="bucket-0"><span>Bucket 0</span><div class="bucket-items"></div></div>
+                <div class="bucket-box" id="bucket-1"><span>Bucket 1</span><div class="bucket-items"></div></div>
+                <div class="bucket-box" id="bucket-2"><span>Bucket 2</span><div class="bucket-items"></div></div>
+                <div class="bucket-box" id="bucket-3"><span>Bucket 3</span><div class="bucket-items"></div></div>
+                <div class="bucket-box" id="bucket-4"><span>Bucket 4</span><div class="bucket-items"></div></div>
+                <div class="bucket-box" id="bucket-5"><span>Bucket 5</span><div class="bucket-items"></div></div>
+                <div class="bucket-box" id="bucket-6"><span>Bucket 6</span><div class="bucket-items"></div></div>
+                <div class="bucket-box" id="bucket-7"><span>Bucket 7</span><div class="bucket-items"></div></div>
+                <div class="bucket-box" id="bucket-8"><span>Bucket 8</span><div class="bucket-items"></div></div>
+                <div class="bucket-box" id="bucket-9"><span>Bucket 9</span><div class="bucket-items"></div></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Liên kết file JavaScript riêng cho MSD -->
+    <script src="js/msd.js"></script>
+</body>
+</html>
