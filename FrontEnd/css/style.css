@@ -1,0 +1,287 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background-color: #121418;
+    color: #e2e8f0;
+    overflow: hidden;
+}
+
+/* Header */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 24px;
+    background-color: #121418;
+    border-bottom: 1px solid #1e222d;
+}
+
+.header-title h2 {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #f1f5f9;
+}
+
+.header-title h2 span {
+    color: #64748b;
+    font-weight: 400;
+    font-size: 0.85rem;
+    margin-left: 6px;
+}
+
+.header-stats {
+    display: flex;
+    gap: 16px;
+    font-size: 0.75rem;
+    color: #64748b;
+}
+
+.stat strong {
+    color: #94a3b8;
+    margin-left: 4px;
+}
+
+/* Board hiển thị các cột */
+.visualization-board {
+    display: flex;
+    flex: 1;
+    padding: 16px 24px;
+    background-color: #121418;
+}
+
+.board {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    background-color: #181b20;
+    border-radius: 8px;
+    padding: 10px;
+    overflow: hidden;
+}
+
+.bar {
+    flex: 1;
+    margin: 0 1px;
+    background-color: #a0aab8;
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+    transition: height 0.05s ease, background-color 0.1s ease;
+}
+
+.bar.active {
+    background-color: #818cf8;
+}
+
+/* Panel điều khiển */
+.control-panel {
+    display: flex;
+    gap: 16px;
+    padding: 0 24px 12px 24px;
+    background-color: #121418;
+}
+
+.panel-box {
+    background-color: #1a1d24;
+    border-radius: 12px;
+    padding: 18px;
+}
+
+/* Lưới chọn thuật toán (Bên trái) */
+.left-panel {
+    flex: 1.2;
+    overflow: hidden;
+    position: relative;
+}
+
+.algo-slider-container {
+    width: 100%;
+    overflow: hidden;
+}
+
+.algo-slider-track {
+    display: flex;
+    width: 200%;
+    transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.algo-grid {
+    width: 50%;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    padding-right: 12px;
+    align-content: start;
+}
+
+.algo-btn {
+    background-color: #222630;
+    color: #94a3b8;
+    border: 1px solid transparent;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.algo-btn:hover {
+    background-color: #2a2f3d;
+    color: #f1f5f9;
+}
+
+.algo-btn.active {
+    background-color: #2a2d3a;
+    color: #f1f5f9;
+    border-color: #818cf8;
+}
+
+.algo-btn.nav-btn {
+    color: #818cf8;
+    font-size: 1.2rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.algo-btn.nav-btn:hover {
+    background-color: #2a2f3d;
+    color: #a5b4fc;
+}
+
+/* Badge "new" */
+.badge-new {
+    background-color: #6366f1;
+    color: #ffffff;
+    font-size: 0.65rem;
+    padding: 2px 6px;
+    border-radius: 10px;
+    margin-left: 6px;
+    font-weight: 600;
+}
+
+/* Panel điều khiển bên phải (Đã nâng cấp kích thước) */
+.right-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.controls-top {
+    width: 100%;
+}
+
+/* Tự động kéo dãn 3 nút to ra full chiều rộng */
+.buttons {
+    display: flex;
+    gap: 12px;
+    width: 100%;
+}
+
+.btn-start, .btn-action {
+    flex: 1;
+    padding: 14px 20px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+}
+
+.btn-start {
+    background-color: #818cf8;
+    color: #0f172a;
+    border: none;
+}
+
+.btn-start:hover {
+    background-color: #6366f1;
+    transform: translateY(-1px);
+}
+
+.btn-action {
+    background-color: #222630;
+    color: #e2e8f0;
+    border: 1px solid #2a2f3d;
+}
+
+.btn-action:hover {
+    background-color: #2a2f3d;
+    color: #ffffff;
+    transform: translateY(-1px);
+}
+
+/* Thanh kéo Sliders thoáng hơn */
+.sliders {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+}
+
+.slider-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.slider-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    color: #94a3b8;
+    font-weight: 500;
+}
+
+.slider-header span {
+    color: #f1f5f9;
+    font-weight: 600;
+}
+
+input[type="range"] {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 8px;
+    background: #222630;
+    border-radius: 4px;
+    outline: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #818cf8;
+    cursor: pointer;
+    transition: transform 0.15s ease, background-color 0.15s ease;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+    background: #6366f1;
+}
+
+/* Footer */
+footer {
+    padding: 8px 24px 12px 24px;
+    font-size: 0.75rem;
+    color: #475569;
+}

@@ -1,0 +1,48 @@
+/* --- TRẠNG THÁI VÀ MÀU SẮC PHẦN TỬ --- */
+
+/* Cột đang so sánh (Red Glow) */
+.bar.comparing {
+    background-color: #ef4444 !important;
+    box-shadow: 0 0 10px rgba(239, 68, 68, 0.6);
+    transition: background-color 0.05s ease, box-shadow 0.05s ease;
+}
+
+/* Cột đang hoán đổi giá trị (Orange Glow) */
+.bar.swapping {
+    background-color: #f59e0b !important;
+    box-shadow: 0 0 10px rgba(245, 158, 11, 0.6);
+    transition: background-color 0.05s ease, box-shadow 0.05s ease;
+}
+
+/* Cột chốt làm Pivot trong Quick Sort / Heap / Intro Sort (Purple) */
+.bar.pivot {
+    background-color: #a855f7 !important;
+    box-shadow: 0 0 10px rgba(168, 85, 247, 0.6);
+}
+
+/* Cột đã hoàn thành sắp xếp (Emerald Green) */
+.bar.sorted {
+    background-color: #10b981 !important;
+    box-shadow: 0 0 8px rgba(16, 185, 129, 0.4);
+    animation: sortedPulse 0.3s ease-in-out;
+}
+
+/* --- KEYFRAMES ANIMATIONS --- */
+
+/* Hiệu ứng nảy nhẹ khi hoàn thành từng cột */
+@keyframes sortedPulse {
+    0% {
+        transform: scaleY(1);
+    }
+    50% {
+        transform: scaleY(1.03);
+    }
+    100% {
+        transform: scaleY(1);
+    }
+}
+
+/* Hiệu ứng trượt đổi trang danh sách thuật toán */
+.algo-slider-track {
+    transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}

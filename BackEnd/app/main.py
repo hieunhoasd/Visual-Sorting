@@ -31,7 +31,7 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],   # để Frontend gọi được, siết lại khi deploy thật
+    allow_origins=["*"],
     allow_methods=["*"],
     allow_headers=["*"],
 )
