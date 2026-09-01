@@ -25,6 +25,11 @@ from app.algorithms import (
     tournament_sort,
     tree_sort,
     bubble_sort,
+    shell_sort,
+    bitonic_sort,
+    radix_lsd_sort,
+    radix_msd_sort,
+
 )
 
 app = FastAPI()
