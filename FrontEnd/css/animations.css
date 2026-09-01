@@ -1,0 +1,7 @@
+.bar {
+    transition: height 0.1s ease, background-color 0.1s ease;
+}
+
+.bar.compare { background: #f1c40f; }
+.bar.swap { background: #e74c3c; }
+.bar.sorted { background: #2ecc71; }
