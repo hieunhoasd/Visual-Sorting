@@ -3,7 +3,38 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List
 
+<<<<<<< Updated upstream
 app = FastAPI(debug=True)
+=======
+from app.schemas.sort_models import SortRequest, SortResponse
+from app.registry import get_algorithm
+
+# Import tất cả file thuật toán để decorator @register_algorithm chạy
+from app.algorithms import (
+    bucket_sort,
+    circle_sort,
+    comb_sort,
+    counting_sort,
+    heap_sort,
+    insertion_sort,
+    intro_sort,
+    merge_sort,
+    pigeonhole_sort,
+    quick_sort,
+    radix_msd,
+    radix_sort,
+    selection_sort,
+    sleep_sort,
+    slow_sort,
+    smooth_sort,
+    strand_sort,
+    shell_sort,
+    tree_sort,
+    bubble_sort,
+)
+
+app = FastAPI()
+>>>>>>> Stashed changes
 
 # Cấu hình CORS để cho phép Frontend (cổng 5500) gọi API xuống Backend (cổng 8000)
 app.add_middleware(
