@@ -17,6 +17,7 @@ from app.algorithms import (
     pigeonhole_sort,
     quick_sort,
     radix_sort,
+    radix_msd_sort,
     selection_sort,
     sleep_sort,
     slow_sort,

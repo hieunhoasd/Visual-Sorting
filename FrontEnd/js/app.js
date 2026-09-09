@@ -38,6 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
             { id: 'stooge_sort', name: 'Stooge Sort' },
             { id: 'counting_sort', name: 'Counting Sort', isNew: true },
             { id: 'radix_lsd_sort', name: 'Radix LSD Sort' },
+            { id: 'radix_msd_sort', name: 'Radix MSD Sort' },
             { id: 'tim_sort', name: 'Tim Sort' },
             { id: 'intro_sort', name: 'Intro Sort', isNew: true },
             { type: 'prev', icon: '←' }
