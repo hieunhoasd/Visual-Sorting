@@ -38,24 +38,14 @@ document.addEventListener('DOMContentLoaded', () => {
             { id: 'merge_sort', name: 'Merge Sort' },
             { id: 'heap_sort', name: 'Heap Sort' },
             { id: 'shell_sort', name: 'Shell Sort' },
-            { id: 'comb_sort', name: 'Comb Sort' },
-            { id: 'bucket_sort', name: 'Bucket Sort' },
-            { id: 'counting_sort', name: 'Counting Sort' },
+            { id: 'radix_msd_sort', name: 'Radix MSD Sort' },
+            
+           
             { id: 'radix_sort', name: 'Radix LSD Sort' },
-            { type: 'next', icon: '→' }
+           
         ],
         [
-            { id: 'radix_msd_sort', name: 'Radix MSD Sort' },
-            { id: 'intro_sort', name: 'Intro Sort' },
-            { id: 'pigeonhole_sort', name: 'Pigeonhole Sort' },
-            { id: 'circle_sort', name: 'Circle Sort' },
-            { id: 'sleep_sort', name: 'Sleep Sort' },
-            { id: 'slow_sort', name: 'Slow Sort' },
-            { id: 'smooth_sort', name: 'Smooth Sort' },
-            { id: 'strand_sort', name: 'Strand Sort' },
-            { id: 'tournament_sort', name: 'Tournament Sort' },
-            { id: 'tree_sort', name: 'Tree Sort' },
-            { type: 'prev', icon: '←' }
+            
         ]
     ];
 
@@ -271,7 +261,18 @@ document.addEventListener('DOMContentLoaded', () => {
             resetUIState();
         });
     }
+    const btnSound = document.getElementById('btn-sound');
+    if (btnSound) {
+        btnSound.addEventListener('click', () => {
+            const isSoundOn = visualizer.toggleSound();
+            btnSound.textContent = isSoundOn ? '🔊 Sound: ON' : '🔇 Sound: OFF';
+            btnSound.style.opacity = isSoundOn ? '1' : '0.6';
+        });
+    }
 
+    btnShuffle.addEventListener('click', () => {
+        generateAndRenderArrays(sizeSlider ? sizeSlider.value : 200);
+    });
     btnShuffle.addEventListener('click', () => {
         generateAndRenderArrays(sizeSlider ? sizeSlider.value : 200);
     });
