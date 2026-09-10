@@ -1,3 +1,44 @@
+// --- BỘ QUẢN LÝ ÂM THANH (WEB AUDIO API) ---
+class SoundManager {
+    constructor() {
+        this.ctx = null;
+        this.enabled = true;
+    }
+
+    init() {
+        if (!this.ctx) {
+            this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+    }
+
+    playNote(val, maxVal = 100, delayMs = 16) {
+        if (!this.enabled) return;
+        this.init();
+
+        if (this.ctx.state === 'suspended') {
+            this.ctx.resume();
+        }
+
+        const freq = 150 + (val / maxVal) * 850;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+
+        const duration = Math.min(Math.max(delayMs / 1000, 0.01), 0.05);
+        gain.gain.setValueAtTime(0.03, this.ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + duration);
+
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+
+        osc.start();
+        osc.stop(this.ctx.currentTime + duration);
+    }
+}
+
+// --- LỚP VISUALIZER ---
 class Visualizer {
     constructor() {
         this.board = document.getElementById('board');
@@ -8,12 +49,15 @@ class Visualizer {
         this.currentArray = [];
         this.isRunning = false;
         this.isPaused = false;
+        this.stepRequested = false; // Hàng chờ xử lý nút Step
         this.stepResolver = null;
 
         this.cmpCount = 0;
         this.swapCount = 0;
         this.accCount = 0;
         this.delayMs = 16;
+
+        this.sound = new SoundManager();
     }
 
     setDelay(ms) {
@@ -33,11 +77,20 @@ class Visualizer {
         if (this.statAcc) this.statAcc.textContent = this.accCount;
     }
 
+    adjustBoardGap(boardElement, size) {
+        if (!boardElement) return;
+        if (size > 500) boardElement.style.gap = '0px';
+        else if (size > 200) boardElement.style.gap = '1px';
+        else boardElement.style.gap = '2px';
+    }
+
     generateArray(size) {
         this.stop();
         this.currentArray = [];
         if (!this.board) return;
         this.board.innerHTML = '';
+
+        this.adjustBoardGap(this.board, size);
 
         for (let i = 0; i < size; i++) {
             const value = Math.floor(Math.random() * 95) + 5;
@@ -51,32 +104,75 @@ class Visualizer {
         this.resetStats();
     }
 
-    getBars() {
-        return this.board ? this.board.children : [];
+    getBars(board = this.board) {
+        return board ? board.children : [];
     }
 
     sleep(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
 
+    // --- ĐIỀU KHIỂN PAUSE / RESUME / STEP ---
+    pause() {
+        this.isPaused = true;
+    }
+
+    resume() {
+        this.isPaused = false;
+        if (this.stepResolver) {
+            const resolve = this.stepResolver;
+            this.stepResolver = null;
+            resolve();
+        }
+    }
+
+    stepNext() {
+        if (!this.isRunning) return;
+        this.isPaused = true;
+        if (this.stepResolver) {
+            const resolve = this.stepResolver;
+            this.stepResolver = null;
+            resolve();
+        } else {
+            this.stepRequested = true;
+        }
+    }
+
     async handleStep() {
         if (!this.isRunning) return;
+
         if (this.isPaused) {
+            if (this.stepRequested) {
+                this.stepRequested = false;
+                return;
+            }
             await new Promise(resolve => { this.stepResolver = resolve; });
         } else {
             await this.sleep(this.delayMs);
         }
     }
 
-    async compare(i, j) {
+    // --- CÁC PHÉP TOÁN XỬ LÝ MẢNG ---
+    async compare(i, j, board = this.board, arr = this.currentArray, stats = null) {
         if (!this.isRunning) return;
-        this.cmpCount++;
-        this.accCount += 2;
-        this.updateStatsUI();
 
-        const bars = this.getBars();
+        if (stats) {
+            stats.cmp++;
+            stats.acc += 2;
+            if (stats.cmpEl) stats.cmpEl.textContent = stats.cmp;
+        } else {
+            this.cmpCount++;
+            this.accCount += 2;
+            this.updateStatsUI();
+        }
+
+        const bars = this.getBars(board);
         if (bars[i]) bars[i].classList.add('comparing');
         if (bars[j]) bars[j].classList.add('comparing');
+
+        if (arr && arr[i] !== undefined) {
+            this.sound.playNote(arr[i], 100, this.delayMs);
+        }
 
         await this.handleStep();
 
@@ -84,22 +180,33 @@ class Visualizer {
         if (bars[j]) bars[j].classList.remove('comparing');
     }
 
-    async swap(i, j) {
+    async swap(i, j, board = this.board, arr = this.currentArray, stats = null) {
         if (!this.isRunning) return;
-        this.swapCount++;
-        this.accCount += 2;
-        this.updateStatsUI();
 
-        const bars = this.getBars();
+        if (stats) {
+            stats.swp++;
+            stats.acc += 2;
+            if (stats.swpEl) stats.swpEl.textContent = stats.swp;
+        } else {
+            this.swapCount++;
+            this.accCount += 2;
+            this.updateStatsUI();
+        }
+
+        const bars = this.getBars(board);
         if (bars[i]) bars[i].classList.add('swapping');
         if (bars[j]) bars[j].classList.add('swapping');
 
-        let temp = this.currentArray[i];
-        this.currentArray[i] = this.currentArray[j];
-        this.currentArray[j] = temp;
+        let temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
 
-        if (bars[i]) bars[i].style.height = `${this.currentArray[i]}%`;
-        if (bars[j]) bars[j].style.height = `${this.currentArray[j]}%`;
+        if (bars[i]) bars[i].style.height = `${arr[i]}%`;
+        if (bars[j]) bars[j].style.height = `${arr[j]}%`;
+
+        if (arr && arr[i] !== undefined) {
+            this.sound.playNote(arr[i], 100, this.delayMs);
+        }
 
         await this.handleStep();
 
@@ -107,94 +214,134 @@ class Visualizer {
         if (bars[j]) bars[j].classList.remove('swapping');
     }
 
-    async setValue(i, value) {
+    async setValue(i, value, board = this.board, arr = this.currentArray, stats = null) {
         if (!this.isRunning) return;
-        this.accCount++;
-        this.updateStatsUI();
 
-        this.currentArray[i] = value;
-        const bars = this.getBars();
+        if (stats) {
+            stats.acc++;
+        } else {
+            this.accCount++;
+            this.updateStatsUI();
+        }
+
+        arr[i] = value;
+        const bars = this.getBars(board);
         if (bars[i]) {
             bars[i].classList.add('swapping');
             bars[i].style.height = `${value}%`;
         }
+
+        this.sound.playNote(value, 100, this.delayMs);
 
         await this.handleStep();
 
         if (bars[i]) bars[i].classList.remove('swapping');
     }
 
-    async markSortedAnimation() {
-        const bars = this.getBars();
+    async markSortedAnimation(board = this.board) {
+        const bars = this.getBars(board);
         for (let i = 0; i < bars.length; i++) {
             if (!this.isRunning) break;
             bars[i].className = 'bar sorted';
-            await this.sleep(Math.max(5, Math.floor(200 / bars.length)));
+            await this.sleep(Math.max(2, Math.floor(150 / bars.length)));
         }
     }
 
-    clearBarStyles() {
-        const bars = this.getBars();
+    clearBarStyles(board = this.board) {
+        const bars = this.getBars(board);
         for (let i = 0; i < bars.length; i++) {
             bars[i].className = 'bar';
         }
     }
 
-    // --- HÀM PHÁT LẠI DANH SÁCH BƯỚC TỪ BACKEND ---
-    async executeSteps(steps) {
-    this.isRunning = true;
-    this.isPaused = false;
-    this.clearBarStyles();
-    this.resetStats();
+    async executeSteps(steps, startPaused = false) {
+        this.isRunning = true;
+        this.isPaused = startPaused;
+        this.stepRequested = false;
+        this.clearBarStyles(this.board);
+        this.resetStats();
 
-    for (const step of steps) {
-        if (!this.isRunning) break;
+        await this.runStepLoop(steps, this.board, this.currentArray, null);
 
-        switch (step.type) {
-            case 'compare':
-                if (step.indices && step.indices.length >= 2) {
-                    await this.compare(step.indices[0], step.indices[1]);
-                }
-                break;
+        if (this.isRunning) {
+            await this.markSortedAnimation(this.board);
+        }
+        this.stop();
+    }
 
-            case 'swap':
-                if (step.indices && step.indices.length >= 2) {
-                    await this.swap(step.indices[0], step.indices[1]);
-                }
-                break;
+    async executeStepsOnBoard(boardElement, steps) {
+        this.isRunning = true;
+        this.isPaused = false;
+        this.stepRequested = false;
+        this.clearBarStyles(boardElement);
 
-            case 'overwrite':
-                if (step.index !== null && step.index !== undefined && step.value !== undefined) {
-                    await this.setValue(step.index, step.value);
-                }
-                break;
+        const arrCopy = [...this.currentArray];
+        const isBoard1 = boardElement.id === 'board-1';
 
-            case 'pivot':
-                if (step.index !== null && step.index !== undefined) {
-                    const bars = this.getBars();
-                    if (bars[step.index]) bars[step.index].classList.add('comparing');
-                    await this.handleStep();
-                    if (bars[step.index]) bars[step.index].classList.remove('comparing');
-                }
-                break;
+        const stats = {
+            cmp: 0,
+            swp: 0,
+            acc: 0,
+            cmpEl: document.getElementById(isBoard1 ? 'cmp-1' : 'cmp-2'),
+            swpEl: document.getElementById(isBoard1 ? 'swp-1' : 'swp-2')
+        };
 
-            case 'sorted':
-                if (step.index !== null && step.index !== undefined) {
-                    const bars = this.getBars();
-                    if (bars[step.index]) bars[step.index].classList.add('sorted');
-                }
-                break;
+        if (stats.cmpEl) stats.cmpEl.textContent = '0';
+        if (stats.swpEl) stats.swpEl.textContent = '0';
+
+        await this.runStepLoop(steps, boardElement, arrCopy, stats);
+
+        if (this.isRunning) {
+            await this.markSortedAnimation(boardElement);
         }
     }
 
-    if (this.isRunning) {
-        await this.markSortedAnimation();
+    async runStepLoop(steps, board, array, stats) {
+        for (const step of steps) {
+            if (!this.isRunning) break;
+
+            switch (step.type) {
+                case 'compare':
+                    if (step.indices && step.indices.length >= 2) {
+                        await this.compare(step.indices[0], step.indices[1], board, array, stats);
+                    }
+                    break;
+
+                case 'swap':
+                    if (step.indices && step.indices.length >= 2) {
+                        await this.swap(step.indices[0], step.indices[1], board, array, stats);
+                    }
+                    break;
+
+                case 'overwrite':
+                    if (step.index !== null && step.index !== undefined && step.value !== undefined) {
+                        await this.setValue(step.index, step.value, board, array, stats);
+                    }
+                    break;
+
+                case 'pivot':
+                    if (step.index !== null && step.index !== undefined) {
+                        const bars = this.getBars(board);
+                        if (bars[step.index]) bars[step.index].classList.add('comparing');
+                        await this.handleStep();
+                        if (bars[step.index]) bars[step.index].classList.remove('comparing');
+                    }
+                    break;
+
+                case 'sorted':
+                    if (step.index !== null && step.index !== undefined) {
+                        const bars = this.getBars(board);
+                        if (bars[step.index]) bars[step.index].classList.add('sorted');
+                    }
+                    break;
+            }
+        }
     }
-    this.stop();
-}
+
     stop() {
         this.isRunning = false;
         this.isPaused = false;
+        this.stepRequested = false;
         if (this.stepResolver) {
             this.stepResolver();
             this.stepResolver = null;

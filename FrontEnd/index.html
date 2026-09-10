@@ -14,7 +14,7 @@
         <div class="header-title">
             <h2>Visual Sorting</h2>
         </div>
-        <div class="header-stats">
+        <div class="header-stats" id="global-stats">
             <div class="stat">CMP <strong>0</strong></div>
             <div class="stat">SWP <strong>0</strong></div>
             <div class="stat">ACC <strong>0</strong></div>
@@ -23,13 +23,39 @@
 
     <!-- Khung hiển thị cột -->
     <main class="visualization-board">
+        <!-- Chế độ đơn (Mặc định) -->
         <div id="board" class="board"></div>
+
+        <!-- Chế độ so sánh (Ẩn mặc định) -->
+        <div id="compare-container" class="compare-container hidden">
+            <div class="compare-card">
+                <div class="compare-header">
+                    <select id="select-algo-1" class="algo-select"></select>
+                    <div class="compare-stats">
+                        <span>CMP: <strong id="cmp-1">0</strong></span>
+                        <span>SWP: <strong id="swp-1">0</strong></span>
+                        <span>TIME: <strong id="time-1">0 ms</strong></span>
+                    </div>
+                </div>
+                <div id="board-1" class="board"></div>
+            </div>
+            <div class="compare-card">
+                <div class="compare-header">
+                    <select id="select-algo-2" class="algo-select"></select>
+                    <div class="compare-stats">
+                        <span>CMP: <strong id="cmp-2">0</strong></span>
+                        <span>SWP: <strong id="swp-2">0</strong></span>
+                        <span>TIME: <strong id="time-2">0 ms</strong></span>
+                    </div>
+                </div>
+                <div id="board-2" class="board"></div>
+            </div>
+        </div>
     </main>
 
     <!-- Bảng điều khiển phía dưới -->
     <section class="control-panel">
-        <!-- Cột trái: Chọn thuật toán (Có hiệu ứng trượt) -->
-        <div class="panel-box left-panel">
+        <div class="panel-box left-panel" id="left-panel-container">
             <div class="algo-slider-container">
                 <div class="algo-slider-track" id="algo-track">
                     <div class="algo-grid" id="page-0"></div>
@@ -38,41 +64,41 @@
             </div>
         </div>
 
-        <!-- Cột phải: Các nút bấm và thanh trượt -->
         <div class="panel-box right-panel">
             <div class="controls-top">
                 <div class="buttons">
                     <button class="btn-start" id="btn-start">Start</button>
+                    <button class="btn-action" id="btn-stop">Stop</button>
                     <button class="btn-action" id="btn-step">Step</button>
                     <button class="btn-action" id="btn-shuffle">Shuffle</button>
+                    <button class="btn-action" id="btn-compare">Compare Mode</button>
                 </div>
             </div>
             <div class="sliders">
                 <div class="slider-group">
                     <div class="slider-header">
                         <label>Array size</label>
-                        <span id="size-value">75 bars</span>
+                        <span id="size-value">200 bars</span>
                     </div>
-                    <input type="range" id="size-slider" min="10" max="200" value="75">
+                    <input type="range" id="size-slider" min="10" max="1000" value="200">
                 </div>
                 <div class="slider-group">
                     <div class="slider-header">
                         <label>Delay</label>
-                        <span id="delay-value">16 ms</span>
+                        <span id="delay-value">50 ms</span>
                     </div>
-                    <input type="range" id="delay-slider" min="1" max="100" value="16">
+                    <input type="range" id="delay-slider" min="1" max="300" value="50">
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Footer -->
     <footer>
-        <p>nho hieu dep trai </p>
+        <p>nho hieu dep trai</p>
     </footer>
 
     <script src="js/visualizer.js"></script>
     <script src="js/api.js"></script>
     <script src="js/app.js"></script>
 </body>
-</html>
+</html> 
