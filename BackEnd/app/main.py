@@ -6,25 +6,22 @@ from app.registry import get_algorithm
 
 # Import tất cả file thuật toán để decorator @register_algorithm chạy
 from app.algorithms import (
-    bucket_sort,
-    circle_sort,
-    comb_sort,
-    counting_sort,
+    
     heap_sort,
     insertion_sort,
-    intro_sort,
+   
     merge_sort,
-    pigeonhole_sort,
+    
     quick_sort,
     radix_sort,
     radix_msd_sort,
     selection_sort,
-    sleep_sort,
-    slow_sort,
-    smooth_sort,
-    strand_sort,
+    
+    
+    
+    
     shell_sort,
-    tree_sort,
+    
     bubble_sort,
 )
 

@@ -63,6 +63,10 @@ class Visualizer {
     setDelay(ms) {
         this.delayMs = ms;
     }
+    toggleSound() {
+        this.sound.enabled = !this.sound.enabled;
+        return this.sound.enabled;
+    }
 
     resetStats() {
         this.cmpCount = 0;
@@ -240,10 +244,17 @@ class Visualizer {
 
     async markSortedAnimation(board = this.board) {
         const bars = this.getBars(board);
-        for (let i = 0; i < bars.length; i++) {
+        const total = bars.length;
+        
+        for (let i = 0; i < total; i++) {
             if (!this.isRunning) break;
             bars[i].className = 'bar sorted';
-            await this.sleep(Math.max(2, Math.floor(150 / bars.length)));
+
+            // Lấy chiều cao của thanh hiện tại để phát nốt tăng dần
+            const heightVal = parseFloat(bars[i].style.height) || ((i + 1) / total * 100);
+            this.sound.playNote(heightVal, 100, Math.max(10, Math.floor(200 / total)));
+
+            await this.sleep(Math.max(2, Math.floor(150 / total)));
         }
     }
 
@@ -323,6 +334,13 @@ class Visualizer {
                     if (step.index !== null && step.index !== undefined) {
                         const bars = this.getBars(board);
                         if (bars[step.index]) bars[step.index].classList.add('comparing');
+                        
+                        // Phát nốt tại vị trí pivot
+                        const pivotVal = step.value || array[step.index];
+                        if (pivotVal !== undefined) {
+                            this.sound.playNote(pivotVal, 100, this.delayMs);
+                        }
+
                         await this.handleStep();
                         if (bars[step.index]) bars[step.index].classList.remove('comparing');
                     }
