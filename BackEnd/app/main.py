@@ -9,19 +9,13 @@ from app.algorithms import (
     
     heap_sort,
     insertion_sort,
-   
     merge_sort,
-    
     quick_sort,
     radix_sort,
     radix_msd_sort,
     selection_sort,
-    
-    
-    
-    
+    bitonic_sort,
     shell_sort,
-    
     bubble_sort,
 )
 
