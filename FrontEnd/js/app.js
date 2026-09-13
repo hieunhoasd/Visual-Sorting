@@ -39,9 +39,8 @@ document.addEventListener('DOMContentLoaded', () => {
             { id: 'heap_sort', name: 'Heap Sort' },
             { id: 'shell_sort', name: 'Shell Sort' },
             { id: 'radix_msd_sort', name: 'Radix MSD Sort' },
-            
-           
-            { id: 'radix_sort', name: 'Radix LSD Sort' },
+            { id: 'bitonic_sort', name: 'Bitonic Sort' },
+            { id: 'radix_lsd_sort', name: 'Radix LSD Sort' },
            
         ],
         [
